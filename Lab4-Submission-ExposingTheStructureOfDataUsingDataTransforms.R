@@ -1,95 +1,227 @@
----
-title: "Business Intelligence Project"
-author: "Business Inteligent"
-date: "10/16/2023"
-output:
-  github_document: 
-    toc: yes
-    toc_depth: 4
-    fig_width: 6
-    fig_height: 4
-    df_print: default
-editor_options:
-  chunk_output_type: console
----
 
-# Student Details
 
-|                                              |     |
-|----------------------------------------------|-----|
-| **Student ID Number**                        | 136346
-| 127559|
- 134775|
-135863|
- 134141 |
-| **Student Name**                             | Ngumi Joshua  |Joseph Watunu | Hakeem Alavi|Muema Ian |Aicha Mbongo|
-| **BBIT 4.2 Group**                           | C|
-| **BI Project Group Name/ID (if applicable)** | ... |
 
-# Setup Chunk
 
-**Note:** the following KnitR options have been set as the global defaults: <BR> `knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE, collapse = FALSE, tidy = TRUE)`.
+# STEP 1. Install and Load the Required Packages ----
+# The following packages can be installed and loaded before proceeding to the
+# subsequent steps.
 
-More KnitR options are documented here <https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html> and here <https://yihui.org/knitr/options/>.
+## dplyr - For data manipulation ----
+if (!is.element("dplyr", installed.packages()[, 1])) {
+  install.packages("dplyr", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("dplyr")
 
-```{r setup, include=FALSE}
-library(formatR)
-knitr::opts_chunk$set(
-  warning = FALSE,
-  collapse = FALSE
-)
-```
+## ggplot2 - For data visualizations using the Grammar for Graphics package ----
+if (!is.element("ggplot2", installed.packages()[, 1])) {
+  install.packages("ggplot2", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("ggplot2")
 
-# Understanding the Dataset (Exploratory Data Analysis (EDA))
+## ggrepel - Additional options for the Grammar for Graphics package ----
+if (!is.element("ggrepel", installed.packages()[, 1])) {
+  install.packages("ggrepel", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("ggrepel")
 
-## Loading the Dataset
+## ggraph - Additional options for the Grammar for Graphics package ----
+if (!is.element("ggraph", installed.packages()[, 1])) {
+  install.packages("ggraph", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("ggraph")
 
-### Source:
+## tidytext - For text mining ----
+if (!is.element("tidytext", installed.packages()[, 1])) {
+  install.packages("tidytext", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("tidytext")
 
-The dataset that was used can be downloaded here: *data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset.CSV*
+## tidyr - To tidy messy data ----
+if (!is.element("tidyr", installed.packages()[, 1])) {
+  install.packages("tidyr", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("tidyr")
 
-### Reference:
+## widyr - To widen, process, and re-tidy a dataset ----
+if (!is.element("widyr", installed.packages()[, 1])) {
+  install.packages("widyr", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("widyr")
 
-*\<Cite the dataset here using APA\>\
-Refer to the APA 7th edition manual for rules on how to cite datasets: <https://apastyle.apa.org/style-grammar-guidelines/references/examples/data-set-references>*
+## gridExtra - to arrange multiple grid-based plots on a page ----
+if (!is.element("gridExtra", installed.packages()[, 1])) {
+  install.packages("gridExtra", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("gridExtra")
 
-```{r Dataset Loader}
-library(readr)
+## knitr - for dynamic report generation ----
+if (!is.element("knitr", installed.packages()[, 1])) {
+  install.packages("knitr", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("knitr")
 
-# Provide the executable R code inside the various code chunks as guided by the
-# lab work.
-```
+## kableExtra - for nicely formatted output tables ----
+if (!is.element("kableExtra", installed.packages()[, 1])) {
+  install.packages("kableExtra", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("kableExtra")
 
-## STEP 1. Install and Load the Required Packages ----
-```{r install-packages, message=FALSE, warning=FALSE}
-##Code Chunk 1: Package Installation and Loading
-install_and_load_package <- function(package_name) {
-  if (!is.element(package_name, installed.packages()[, 1])) {
-    install.packages(package_name, dependencies = TRUE,
-                     repos = "https://cloud.r-project.org")
-  }
-  require(package_name, character.only = TRUE)
+## formattable -  To create a formattable object ----
+# A formattable object is an object to which a formatting function and related
+# attributes are attached.
+if (!is.element("formattable", installed.packages()[, 1])) {
+  install.packages("formattable", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("formattable")
+
+## circlize - To create a cord diagram or visualization ----
+# by Gu et al. (2014)
+if (!is.element("circlize", installed.packages()[, 1])) {
+  install.packages("circlize", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("circlize")
+
+## memery - For creating data analysis related memes ----
+# The memery package generates internet memes that optionally include a
+# superimposed inset plot and other atypical features, combining the visual
+# impact of an attention-grabbing meme with graphic results of data analysis.
+if (!is.element("memery", installed.packages()[, 1])) {
+  install.packages("memery", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("memery")
+
+## magick - For image processing in R ----
+if (!is.element("magick", installed.packages()[, 1])) {
+  install.packages("magick", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("magick")
+
+## yarrr - To create a pirate plot ----
+if (!is.element("yarrr", installed.packages()[, 1])) {
+  install.packages("yarrr", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("yarrr")
+
+## radarchart - To create interactive radar charts using ChartJS ----
+if (!is.element("radarchart", installed.packages()[, 1])) {
+  install.packages("radarchart", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("radarchart")
+
+## igraph - To create ngram network diagrams ----
+if (!is.element("igraph", installed.packages()[, 1])) {
+  install.packages("igraph", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("igraph")
+
+## wordcloud2 - For creating wordcloud by using 'wordcloud2.JS ----
+if (!is.element("wordcloud2", installed.packages()[, 1])) {
+  install.packages("wordcloud2", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+require("wordcloud2")
+
+## readr - Load datasets from CSV files ----
+if (!is.element("readr", installed.packages()[, 1])) {
+  install.packages("readr", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
 }
 
-# List of packages
-packages <- c("dplyr", "ggplot2", "ggrepel", "ggraph", "tidytext",
-              "tidyr", "widyr", "gridExtra", "knitr", "kableExtra",
-              "formattable", "circlize", "memery", "magick", "yarrr",
-              "radarchart", "igraph", "wordcloud2", "readr", "caret",
-              "e1071", "factoextra", "FactoMineR")
+## caret ----
+if (require("caret")) {
+  require("caret")
+} else {
+  install.packages("caret", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
 
-# Install and load packages
-lapply(packages, install_and_load_package)
+## e1071 ----
+if (require("e1071")) {
+  require("e1071")
+} else {
+  install.packages("e1071", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
 
-```
+## factoextra ----
+if (require("factoextra")) {
+  require("factoextra")
+} else {
+  install.packages("factoextra", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+
+## FactoMineR ----
+if (require("FactoMineR")) {
+  require("FactoMineR")
+} else {
+  install.packages("FactoMineR", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
 
 
-## STEP 2. Customize the Visualizations, Tables, and Colour Scheme ----
-```{r custom-theme}
-#Code Chunk 2: Custom Theme and Table Styling
+require("readr")
+
+# STEP 2. Customize the Visualizations, Tables, and Colour Scheme ----
+# The following defines a blue-grey colour scheme for the visualizations:
+## shades of blue and shades of grey
+blue_grey_colours_11 <- c("#27408E", "#304FAF", "#536CB5", "#6981c7", "#8da0db",
+                          "#dde5ec", "#c8c9ca", "#B9BCC2", "#A7AAAF", "#888A8E",
+                          "#636569")
+
+blue_grey_colours_6 <- c("#27408E", "#304FAF", "#536CB5",
+                         "#B9BCC2", "#A7AAAF", "#888A8E")
+
+blue_grey_colours_4 <- c("#27408E", "#536CB5",
+                         "#B9BCC2", "#888A8E")
+
+blue_grey_colours_3 <- c("#6981c7", "#304FAF", "#888A8E")
+
+blue_grey_colours_2 <- c("#27408E",
+                         "#888A8E")
+
+blue_grey_colours_1 <- c("#6981c7")
+
 # Custom theme for visualizations
 blue_grey_theme <- function() {
-  # Your existing theme code
+  theme(
+    axis.ticks = element_line(
+      linewidth = 1, linetype = "dashed",
+      lineend = NULL, color = "#dfdede",
+      arrow = NULL, inherit.blank = FALSE),
+    axis.text = element_text(
+      face = "bold", color = "#3f3f41",
+      size = 12, hjust = 0.5),
+    axis.title = element_text(face = "bold", color = "#3f3f41",
+                              size = 14, hjust = 0.5),
+    plot.title = element_text(face = "bold", color = "#3f3f41",
+                              size = 16, hjust = 0.5),
+    panel.grid = element_line(
+      linewidth = 0.1, linetype = "dashed",
+      lineend = NULL, color = "#dfdede",
+      arrow = NULL, inherit.blank = FALSE),
+    panel.background = element_rect(fill = "#f3eeee"),
+    legend.title = element_text(face = "plain", color = "#3f3f41",
+                                size = 12, hjust = 0),
+    legend.position = "right"
+  )
 }
 
 # Customize the text tables for consistency using HTML formatting
@@ -99,15 +231,10 @@ kable_theme <- function(dat, caption) {
                   full_width = FALSE)
 }
 
-```
-
-
-## STEP 3. Load the Dataset ----
-```{r load-dataset}
-#Code Chunk 3: Data Loading
+# STEP 3. Load the Dataset ----
 student_performance_dataset <-
   readr::read_csv(
-    "../data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset.CSV", # nolint
+    "data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset.CSV", # nolint
     col_types =
       readr::cols(
         class_group =
@@ -253,44 +380,59 @@ glimpse(student_performance_dataset)
 summary(student_performance_dataset)
 
 
-```
+## STEP 3. Apply a Scale Data Transform ----
+# Data Types
+sapply(student_performance_dataset, class)
 
+# Select only numeric columns
+numeric_columns <- sapply(student_performance_dataset, is.numeric)
+numeric_data <- student_performance_dataset[, numeric_columns]
 
-
-## STEP 4. Apply a Scale and Centre Data Transform ----
-```{r scale-transform, center-transform}
-# Code Chunk 4: Data Transformation (Scale, Center, Standardize, Normalize)
-
-# Function for data transformation
-transform_data <- function(data, method) {
-  numeric_columns <- sapply(data, is.numeric)
-  numeric_data <- data[, numeric_columns]
-  
-  model_of_the_transform <- preProcess(numeric_data, method = method)
-  transformed_data <- predict(model_of_the_transform, numeric_data)
-  
-  return(transformed_data)
-}
-
-# Apply transformations
-methods <- c("scale", "center", "scale", "range")  
-transformed_data <- lapply(methods, transform_data, data = student_performance_dataset)
+# Display summary of numeric data
+summary(numeric_data)
 
 # Apply scale data transform
 model_of_the_transform <- preProcess(numeric_data, method = c("scale"))
 print(model_of_the_transform)
 student_performance_scale_transform <- predict(model_of_the_transform, numeric_data)
 
+# AFTER
+summary(student_performance_scale_transform)
 
-```
+# Extract numeric columns
+numeric_columns <- sapply(student_performance_scale_transform, is.numeric)
+
+# Create histograms for numeric columns
+for (col in names(student_performance_scale_transform)[numeric_columns]) {
+  # Exclude NA values
+  col_data <- na.omit(student_performance_scale_transform[[col]])
+  
+  # Create histogram
+  hist(col_data, main = col, xlab = col, col = "blue", border = "black", breaks = 20)
+}
 
 
+
+## STEP 4. Apply a Centre Data Transform ----
+# Create a model for centering transformation
+model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("center"))
+
+# Print the details of the transformation
+print(model_of_the_transform)
+
+# Apply centering transformation
+student_performance_center_transform <- predict(model_of_the_transform, student_performance_scale_transform[, numeric_columns])
+
+# Display summary statistics of the centered dataset
+summary(student_performance_center_transform)
+
+# Create boxplots for the centered numeric columns
+for (col in names(student_performance_center_transform)) {
+  boxplot(student_performance_center_transform[[col]], main = col)
+}
+
+# Standardize Data Transform ----
 ## STEP 5. Apply a Standardize Data Transform ----
-
-
-```{r Standardize Data Transform}
-
-
 # Create a model for standardization transformation
 model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("scale", "center"))
 
@@ -306,11 +448,8 @@ summary(student_performance_standardize_transform)
 # Calculate and display standard deviations of the standardized numeric columns
 sapply(student_performance_standardize_transform, sd)
 
-```
-
 
 ## STEP 6. Apply a Normalize Data Transform ----
-```{rNormalize Data Transform}
 # Create a model for normalization transformation
 model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("range"))
 
@@ -322,10 +461,9 @@ student_performance_normalize_transform <- predict(model_of_the_transform, stude
 
 # Display summary statistics of the normalized dataset
 summary(student_performance_normalize_transform)
-```
+
 
 ## STEP 7. Apply a Box-Cox Power Transform ----
-```{r Box-Cox Power Transform}
 # Extract numeric columns
 numeric_columns <- sapply(student_performance_box_cox_transform, is.numeric)
 
@@ -339,6 +477,8 @@ sapply(numeric_data, skewness, type = 2)
 for (i in colnames(numeric_data)) {
   hist(unlist(numeric_data[, i]), main = i)
 }
+
+
 
 # Convert tibble to numeric matrix
 numeric_matrix <- as.matrix(student_performance_scale_transform[, numeric_columns])
@@ -376,11 +516,8 @@ for (i in numeric_columns) {
   hist(student_performance_box_cox_transform[, i], main = names(student_performance_box_cox_transform)[i])
 }
 
-```
-
-
 ## STEP 8. Apply a Yeo-Johnson Power Transform ----
-```{r  Yeo-Johnson Power Transform}
+
 # Calculate the skewness before the Yeo-Johnson transform
 sapply(student_performance_normalize_transform[, -4], skewness, type = 2)
 
@@ -406,10 +543,7 @@ for (i in names(student_performance_yeo_johnson_transform)) {
   hist(student_performance_yeo_johnson_transform[[i]], main = i)
 }
 
-```
-
 ## STEP 9.a. PCA Linear Algebra Transform for Dimensionality Reduction ----
-```{r PCA Linear Algebra Transform}
 # Display summary of the student performance dataset
 summary(student_performance_standardize_transform)
 
@@ -458,11 +592,8 @@ factoextra::fviz_pca_var(student_performance_pca_fe, col.var = "cos2",
                          gradient.cols = c("red", "orange", "green"),
                          repel = TRUE)
 
-```
-
 
 ## STEP 10. ICA Linear Algebra Transform for Dimensionality Reduction ----
-```{r ICA Linear Algebra Transform}
 if (!is.element("fastICA", installed.packages()[, 1])) {
   install.packages("fastICA", dependencies = TRUE)
 }
@@ -487,4 +618,5 @@ student_performance_ica_dr_df <- as.data.frame(student_performance_ica_dr$S)
 
 # Display summary of the ICA results
 summary(student_performance_ica_dr_df)
-```
+
+
