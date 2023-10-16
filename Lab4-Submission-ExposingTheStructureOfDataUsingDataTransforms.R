@@ -1,4 +1,4 @@
-# STEP 1. Install and Load the Required Packages ----
+# STEP 1.. Install and Load the Required Packages ----
 
 ## readr ----
 if (require("readr")) {
