@@ -381,140 +381,514 @@ summary(student_performance_dataset)
 
 
 ## STEP 3. Apply a Scale Data Transform ----
-# Data Types
-sapply(student_performance_dataset, class)
+barplot(table(student_performance_dataset$extra_curricular), main = "Participation in Extra Curricular Activities")
+barplot(table(student_performance_dataset$sports_extra_curricular), main = "Participation in Sports Extra Curricular")
+barplot(table(student_performance_dataset$meditate), main = "Meditation Frequency")
+barplot(table(student_performance_dataset$pray), main = "Prayer Frequency")
+barplot(table(student_performance_dataset$motivator), main = "Motivator")
+barplot(table(student_performance_dataset$read_content_before_lecture), main = "Read Content Before Lecture")
+barplot(table(student_performance_dataset$answer_rhetorical_questions), main = "Answer Rhetorical Questions")
+barplot(table(student_performance_dataset$studying_in_study_group), main = "Studying in Study Group")
 
-# Select only numeric columns
+# Add more histograms as needed for other variables of interest
+
+# Assuming your dataset is named student_performance_dataset
 numeric_columns <- sapply(student_performance_dataset, is.numeric)
-numeric_data <- student_performance_dataset[, numeric_columns]
 
-# Display summary of numeric data
-summary(numeric_data)
+# Print the names of numeric columns
+print(names(student_performance_dataset[numeric_columns]))
+column_numeric <- as.numeric(student_performance_dataset[, 51])
+hist(column_numeric, main = names(student_performance_dataset)[51])
 
-# Apply scale data transform
-model_of_the_transform <- preProcess(numeric_data, method = c("scale"))
+class(student_performance_dataset[, 51])
+# Convert the column to a numeric vector
+column_numeric <- as.numeric(as.character(student_performance_dataset$`TOTAL = Coursework TOTAL + EXAM (100%)`))
+
+# Check the class again
+class(column_numeric)
+
+# Create a histogram
+hist(column_numeric, main = names(student_performance_dataset)[51])
+
+# Convert column 52 to a numeric vector
+column_52_numeric <- as.numeric(as.character(student_performance_dataset$`Absenteeism Percentage`))
+
+# Check the class
+class(column_52_numeric)
+
+# Create a histogram for column 52
+hist(column_52_numeric, main = names(student_performance_dataset)[52])
+
+# Repeat for column 53
+column_53_numeric <- as.numeric(as.character(student_performance_dataset$`Coursework TOTAL: x/40 (40%)`))
+class(column_53_numeric)
+hist(column_53_numeric, main = names(student_performance_dataset)[53])
+
+# Repeat for column 5
+column_5_numeric <- as.numeric(as.character(student_performance_dataset$`A - 4. The subject content is delivered according to the course outline and meets my expectations`))
+class(column_5_numeric)
+hist(column_5_numeric, main = names(student_performance_dataset)[5])
+
+
+class(student_performance_dataset[, 76])
+
+column_76_numeric <- as.numeric(as.character(student_performance_dataset[[76]]))
+class(column_76_numeric)
+hist(column_76_numeric, main = names(student_performance_dataset)[76])
+
+
+# Assuming columns 76 to 97 have been converted to numeric
+numeric_columns <- 76:97
+
+# Create histograms for each numeric column using lapply
+lapply(numeric_columns, function(col) {
+  hist(student_performance_dataset[, col], main = names(student_performance_dataset)[col])
+})
+
+
+library(dplyr)
+
+# Assuming columns 76 to 96 need to be converted to numeric
+numeric_columns <- 76:96
+
+# Convert columns 76 to 96 to numeric
+student_performance_dataset <- student_performance_dataset %>%
+  mutate(across(all_of(numeric_columns), as.numeric))
+
+lapply(numeric_columns, function(col) {
+  hist(student_performance_dataset[, col], main = names(student_performance_dataset)[col])
+})
+
+student_performance_dataset[, 75:97] <- lapply( student_performance_dataset[, 75:97], as.numeric )
+
+# BEFORE
+
+student_average_rating <- as.numeric( unlist(student_performance_dataset [, 75]))
+hist(student_average_rating, main = names(student_performance_dataset)[75])
+
+student_average_rating <- as.numeric( unlist(student_performance_dataset [, 76]))
+hist(student_average_rating, main = names(student_performance_dataset)[76])
+
+student_average_rating <- as.numeric( unlist(student_performance_dataset [, 77]))
+hist(student_average_rating, main = names(student_performance_dataset)[77])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 78]))
+hist(student_score, main = names(student_performance_dataset)[78])
+
+student_score<- as.numeric( unlist(student_performance_dataset [, 79]))
+hist(student_score, main = names(student_performance_dataset)[79])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 80]))
+hist(student_score, main = names(student_performance_dataset)[80])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 81]))
+hist(student_score, main = names(student_performance_dataset)[81])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 82]))
+hist(student_score, main = names(student_performance_dataset)[82])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 83]))
+hist(student_score, main = names(student_performance_dataset)[83])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 84]))
+hist(student_score, main = names(student_performance_dataset)[84])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 85]))
+hist(student_score, main = names(student_performance_dataset)[85])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 86]))
+hist(student_score, main = names(student_performance_dataset)[86])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 87]))
+hist(student_score, main = names(student_performance_dataset)[87])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 88]))
+hist(student_score, main = names(student_performance_dataset)[88])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 89]))
+hist(student_score, main = names(student_performance_dataset)[89])
+
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 90]))
+hist(student_score, main = names(student_performance_dataset)[90])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 91]))
+hist(student_score, main = names(student_performance_dataset)[91])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 92]))
+hist(student_score, main = names(student_performance_dataset)[92])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 93]))
+hist(student_score, main = names(student_performance_dataset)[93])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 94]))
+hist(student_score, main = names(student_performance_dataset)[94])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 95]))
+hist(student_score, main = names(student_performance_dataset)[95])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 96]))
+hist(student_score, main = names(student_performance_dataset)[96])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 97]))
+hist(student_score, main = names(student_performance_dataset)[97])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 98]))
+hist(student_score, main = names(student_performance_dataset)[98])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 99]))
+hist(student_score, main = names(student_performance_dataset)[99])
+
+
+model_of_the_transform <- preProcess(student_performance_dataset, method = c("scale"))
 print(model_of_the_transform)
-student_performance_scale_transform <- predict(model_of_the_transform, numeric_data)
+student_performance_scale_transform <- predict(model_of_the_transform,
+                                            student_performance_dataset)
+
 
 # AFTER
-summary(student_performance_scale_transform)
 
-# Extract numeric columns
-numeric_columns <- sapply(student_performance_scale_transform, is.numeric)
+student_average_rating <- as.numeric( unlist(student_performance_scale_transform [, 75]))
+hist(student_average_rating, main = names(student_performance_scale_transform)[75])
 
-# Create histograms for numeric columns
-for (col in names(student_performance_scale_transform)[numeric_columns]) {
-  # Exclude NA values
-  col_data <- na.omit(student_performance_scale_transform[[col]])
-  
-  # Create histogram
-  hist(col_data, main = col, xlab = col, col = "blue", border = "black", breaks = 20)
-}
+student_average_rating <- as.numeric( unlist(student_performance_scale_transform [, 76]))
+hist(student_average_rating, main = names(student_performance_scale_transform)[76])
+
+student_average_rating <- as.numeric( unlist(student_performance_scale_transform [, 77]))
+hist(student_average_rating, main = names(student_performance_scale_transform)[77])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 78]))
+hist(student_score, main = names(student_performance_scale_transform)[78])
+
+student_score<- as.numeric( unlist(student_performance_scale_transform [, 79]))
+hist(student_score, main = names(student_performance_scale_transform)[79])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 80]))
+hist(student_score, main = names(student_performance_scale_transform)[80])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 81]))
+hist(student_score, main = names(student_performance_scale_transform)[81])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 82]))
+hist(student_score, main = names(student_performance_scale_transform)[82])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 83]))
+hist(student_score, main = names(student_performance_scale_transform)[83])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 84]))
+hist(student_score, main = names(student_performance_scale_transform)[84])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 85]))
+hist(student_score, main = names(student_performance_scale_transform)[85])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 86]))
+hist(student_score, main = names(student_performance_scale_transform)[86])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 87]))
+hist(student_score, main = names(student_performance_scale_transform)[87])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 88]))
+hist(student_score, main = names(student_performance_scale_transform)[88])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 89]))
+hist(student_score, main = names(student_performance_scale_transform)[89])
+
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 90]))
+hist(student_score, main = names(student_performance_scale_transform)[90])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 91]))
+hist(student_score, main = names(student_performance_scale_transform)[91])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 92]))
+hist(student_score, main = names(student_performance_scale_transform)[92])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 93]))
+hist(student_score, main = names(student_performance_scale_transform)[93])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 94]))
+hist(student_score, main = names(student_performance_scale_transform)[94])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 95]))
+hist(student_score, main = names(student_performance_scale_transform)[95])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 96]))
+hist(student_score, main = names(student_performance_scale_transform)[96])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 97]))
+hist(student_score, main = names(student_performance_scale_transform)[97])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 98]))
+hist(student_score, main = names(student_performance_scale_transform)[98])
+
+student_score <- as.numeric( unlist(student_performance_scale_transform [, 99]))
+hist(student_score, main = names(student_performance_scale_transform)[99])
+
+
+student_data_avg <- as.numeric( unlist(student_data_avg_scale_transform [, 75]))
+hist(student_data_avg,
+     main = names(student_data_avg_scale_transform)[75])
+
+
+
 
 
 
 ## STEP 4. Apply a Centre Data Transform ----
-# Create a model for centering transformation
-model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("center"))
 
-# Print the details of the transformation
+# BEFORE
+
+student_average_rating <- as.numeric( unlist(student_performance_dataset [, 75]))
+boxplot(student_average_rating, main = names(student_performance_dataset)[75])
+
+student_average_rating <- as.numeric( unlist(student_performance_dataset [, 76]))
+boxplot(student_average_rating, main = names(student_performance_dataset)[76])
+
+student_average_rating <- as.numeric( unlist(student_performance_dataset [, 77]))
+boxplot(student_average_rating, main = names(student_performance_dataset)[77])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 78]))
+boxplot(student_score, main = names(student_performance_dataset)[78])
+
+student_score<- as.numeric( unlist(student_performance_dataset [, 79]))
+boxplot(student_score, main = names(student_performance_dataset)[79])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 80]))
+boxplot(student_score, main = names(student_performance_dataset)[80])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 81]))
+boxplot(student_score, main = names(student_performance_dataset)[81])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 82]))
+boxplot(student_score, main = names(student_performance_dataset)[82])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 83]))
+boxplot(student_score, main = names(student_performance_dataset)[83])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 84]))
+boxplot(student_score, main = names(student_performance_dataset)[84])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 85]))
+boxplot(student_score, main = names(student_performance_dataset)[85])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 86]))
+boxplot(student_score, main = names(student_performance_dataset)[86])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 87]))
+boxplot(student_score, main = names(student_performance_dataset)[87])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 88]))
+boxplot(student_score, main = names(student_performance_dataset)[88])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 89]))
+boxplot(student_score, main = names(student_performance_dataset)[89])
+
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 90]))
+boxplot(student_score, main = names(student_performance_dataset)[90])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 91]))
+boxplot(student_score, main = names(student_performance_dataset)[91])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 92]))
+boxplot(student_score, main = names(student_performance_dataset)[92])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 93]))
+boxplot(student_score, main = names(student_performance_dataset)[93])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 94]))
+boxplot(student_score, main = names(student_performance_dataset)[94])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 95]))
+boxplot(student_score, main = names(student_performance_dataset)[95])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 96]))
+boxplot(student_score, main = names(student_performance_dataset)[96])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 97]))
+boxplot(student_score, main = names(student_performance_dataset)[97])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 98]))
+boxplot(student_score, main = names(student_performance_dataset)[98])
+
+student_score <- as.numeric( unlist(student_performance_dataset [, 99]))
+boxplot(student_score, main = names(student_performance_dataset)[99])
+
+
+model_of_the_transform <- preProcess(student_performance_dataset, method = c("center"))
 print(model_of_the_transform)
+student_performance_center_transform <- predict(model_of_the_transform,
+                                               student_performance_dataset)
 
-# Apply centering transformation
-student_performance_center_transform <- predict(model_of_the_transform, student_performance_scale_transform[, numeric_columns])
 
-# Display summary statistics of the centered dataset
-summary(student_performance_center_transform)
+# AFTER
 
-# Create boxplots for the centered numeric columns
-for (col in names(student_performance_center_transform)) {
-  boxplot(student_performance_center_transform[[col]], main = col)
-}
+student_average_rating <- as.numeric( unlist(student_performance_center_transform [, 75]))
+boxplot(student_average_rating, main = names(student_performance_center_transform)[75])
+
+student_average_rating <- as.numeric( unlist(student_performance_center_transform [, 76]))
+boxplot(student_average_rating, main = names(student_performance_center_transform)[76])
+
+student_average_rating <- as.numeric( unlist(student_performance_center_transform [, 77]))
+boxplot(student_average_rating, main = names(student_performance_center_transform)[77])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 78]))
+boxplot(student_score, main = names(student_performance_center_transform)[78])
+
+student_score<- as.numeric( unlist(student_performance_center_transform [, 79]))
+boxplot(student_score, main = names(student_performance_center_transform)[79])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 80]))
+boxplot(student_score, main = names(student_performance_center_transform)[80])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 81]))
+boxplot(student_score, main = names(student_performance_center_transform)[81])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 82]))
+boxplot(student_score, main = names(student_performance_center_transform)[82])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 83]))
+boxplot(student_score, main = names(student_performance_center_transform)[83])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 84]))
+boxplot(student_score, main = names(student_performance_center_transform)[84])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 85]))
+boxplot(student_score, main = names(student_performance_center_transform)[85])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 86]))
+boxplot(student_score, main = names(student_performance_center_transform)[86])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 87]))
+boxplot(student_score, main = names(student_performance_center_transform)[87])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 88]))
+boxplot(student_score, main = names(student_performance_center_transform)[88])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 89]))
+boxplot(student_score, main = names(student_performance_center_transform)[89])
+
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 90]))
+boxplot(student_score, main = names(student_performance_center_transform)[90])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 91]))
+boxplot(student_score, main = names(student_performance_center_transform)[91])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 92]))
+boxplot(student_score, main = names(student_performance_center_transform)[92])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 93]))
+boxplot(student_score, main = names(student_performance_center_transform)[93])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 94]))
+boxplot(student_score, main = names(student_performance_center_transform)[94])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 95]))
+boxplot(student_score, main = names(student_performance_center_transform)[95])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 96]))
+boxplot(student_score, main = names(student_performance_center_transform)[96])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 97]))
+boxplot(student_score, main = names(student_performance_center_transform)[97])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 98]))
+boxplot(student_score, main = names(student_performance_center_transform)[98])
+
+student_score <- as.numeric( unlist(student_performance_center_transform [, 99]))
+boxplot(student_score, main = names(student_performance_center_transform)[99])
+
+
+student_data_avg <- as.numeric( unlist(student_data_avg_scale_transform [, 75]))
+boxplot(student_data_avg,
+     main = names(student_data_avg_scale_transform)[75])
+
+
+
+
+
+
+
+
+
 
 # Standardize Data Transform ----
 ## STEP 5. Apply a Standardize Data Transform ----
-# Create a model for standardization transformation
-model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("scale", "center"))
+# BEFORE
+summary(student_performance_dataset)
+sapply(student_performance_dataset[, 75:99], sd)
 
-# Print the details of the transformation
+
+model_of_the_transform <- preProcess(student_performance_dataset,
+                                     method = c("scale", "center"))
 print(model_of_the_transform)
+student_performance_standardize_transform <- predict(model_of_the_transform, # nolint
+                                                student_performance_dataset)
 
-# Apply standardization transformation
-student_performance_standardize_transform <- predict(model_of_the_transform, student_performance_scale_transform[, numeric_columns])
 
-# Display summary statistics of the standardized dataset
-summary(student_performance_standardize_transform)
-
-# Calculate and display standard deviations of the standardized numeric columns
-sapply(student_performance_standardize_transform, sd)
+# AFTER
+summary(student_performance_standardize_transform )
+sapply(student_performance_standardize_transform [, 75:99], sd)
 
 
 ## STEP 6. Apply a Normalize Data Transform ----
-# Create a model for normalization transformation
-model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("range"))
-
-# Print the details of the transformation
+summary(student_performance_dataset)
+model_of_the_transform <- preProcess(student_performance_dataset, method = c("range"))
 print(model_of_the_transform)
-
-# Apply normalization transformation
-student_performance_normalize_transform <- predict(model_of_the_transform, student_performance_scale_transform[, numeric_columns])
-
-# Display summary statistics of the normalized dataset
+student_performance_normalize_transform <- predict(model_of_the_transform, # nolint
+                                              student_performance_dataset)
 summary(student_performance_normalize_transform)
-
 
 ## STEP 7. Apply a Box-Cox Power Transform ----
 # Extract numeric columns
-numeric_columns <- sapply(student_performance_box_cox_transform, is.numeric)
+numeric_columns <- sapply(student_performance_dataset, is.numeric)
 
 # Filter truly numeric columns
-numeric_data <- student_performance_box_cox_transform[, numeric_columns]
+numeric_data <- student_performance_dataset[, numeric_columns]
 
-# Calculate the skewness after the Box-Cox transform
+# Calculate the skewness before the Box-Cox transform
 sapply(numeric_data, skewness, type = 2)
 
-# Plot histograms to view the skewness after the Box-Cox transform
+# Plot histograms to view the skewness before the Box-Cox transform
 for (i in colnames(numeric_data)) {
   hist(unlist(numeric_data[, i]), main = i)
 }
 
+# Apply the Box-Cox transform directly
+student_performance_box_cox_transform <- lapply(numeric_data, function(x) {
+  if (all(!is.na(x)) && min(x, na.rm = TRUE) > 0) {
+    return(BoxCoxTrans(x))
+  } else {
+    return(x)
+  }
+})
 
-
-# Convert tibble to numeric matrix
-numeric_matrix <- as.matrix(student_performance_scale_transform[, numeric_columns])
-
-# Create a model for the Box-Cox transform
-model_of_the_transform <- preProcess(numeric_matrix, method = c("BoxCox"))
-
-# Apply the Box-Cox transform
-student_performance_box_cox_transform <- predict(model_of_the_transform, numeric_matrix)
 # Display summary statistics of the dataset after Box-Cox transform
 summary(student_performance_box_cox_transform)
 
-# Function to check if a variable has enough variation
-has_enough_variation <- function(x) {
-  var <- var(x)
-  return(var > 1e-6)  # You can adjust the threshold as needed
-}
+# Calculate the skewness after the Box-Cox transform
+skewness_values <- sapply(student_performance_box_cox_transform, function(x) {
+  if (is.numeric(x)) {
+    skewness(x, type = 2)
+  } else {
+    NA
+  }
+})
 
-# Identify rows with complete cases
-complete_rows <- complete.cases(student_performance_box_cox_transform)
-
-# Use the logical vector to subset the data frame
-student_performance_box_cox_no_na <- student_performance_box_cox_transform[complete_rows, ]
-
-# Exclude variables with insufficient variation
-selected_columns <- sapply(student_performance_box_cox_no_na, has_enough_variation)
-student_performance_box_cox_filtered <- student_performance_box_cox_no_na[, selected_columns]
-
-# Calculate skewness after the Box-Cox transform
-skewness_values <- sapply(student_performance_box_cox_filtered, skewness, type = 2)
-
+# Print the skewness values
+print(skewness_values)
 
 # Plot histograms to view the skewness after the Box-Cox transform
-for (i in numeric_columns) {
-  hist(student_performance_box_cox_transform[, i], main = names(student_performance_box_cox_transform)[i])
+for (i in colnames(student_performance_box_cox_transform)) {
+  if (all(is.numeric(student_performance_box_cox_transform[[i]]))) {
+    hist(student_performance_box_cox_transform[[i]], main = i)
+  } else {
+    cat("Cannot plot histogram for", i, "as it contains non-numeric values or NAs.\n")
+  }
 }
+
+
 
 ## STEP 8. Apply a Yeo-Johnson Power Transform ----
 

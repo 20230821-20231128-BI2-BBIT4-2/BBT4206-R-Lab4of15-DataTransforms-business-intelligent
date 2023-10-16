@@ -17,14 +17,10 @@ editor_options:
 
 |                                              |     |
 |----------------------------------------------|-----|
-| **Student ID Number**                        | 136346
-| 127559|
- 134775|
-135863|
- 134141 |
-| **Student Name**                             | Ngumi Joshua  |Joseph Watunu | Hakeem Alavi|Muema Ian |Aicha Mbongo|
-| **BBIT 4.2 Group**                           | C|
-| **BI Project Group Name/ID (if applicable)** | ... |
+| **Student ID Number**                        |136346 |127559|134775|135863|134141
+| **Student Name**                             |Ngumi Joshua |Joseph Watunu |Hakeem Alavi |Muema Ian |Aicha Mbongo
+| **BBIT 4.2 Group**                           | C |
+| **BI Project Group Name/ID (if applicable)** | …   |
 
 # Setup Chunk
 
@@ -61,6 +57,7 @@ library(readr)
 ```
 
 ## STEP 1. Install and Load the Required Packages ----
+
 ```{r install-packages, message=FALSE, warning=FALSE}
 ##Code Chunk 1: Package Installation and Loading
 install_and_load_package <- function(package_name) {
@@ -83,8 +80,8 @@ lapply(packages, install_and_load_package)
 
 ```
 
-
 ## STEP 2. Customize the Visualizations, Tables, and Colour Scheme ----
+
 ```{r custom-theme}
 #Code Chunk 2: Custom Theme and Table Styling
 # Custom theme for visualizations
@@ -101,8 +98,8 @@ kable_theme <- function(dat, caption) {
 
 ```
 
-
 ## STEP 3. Load the Dataset ----
+
 ```{r load-dataset}
 #Code Chunk 3: Data Loading
 student_performance_dataset <-
@@ -255,9 +252,8 @@ summary(student_performance_dataset)
 
 ```
 
-
-
 ## STEP 4. Apply a Scale and Centre Data Transform ----
+
 ```{r scale-transform, center-transform}
 # Code Chunk 4: Data Transformation (Scale, Center, Standardize, Normalize)
 
@@ -276,40 +272,20 @@ transform_data <- function(data, method) {
 methods <- c("scale", "center", "scale", "range")  
 transformed_data <- lapply(methods, transform_data, data = student_performance_dataset)
 
-# Apply scale data transform
-model_of_the_transform <- preProcess(numeric_data, method = c("scale"))
-print(model_of_the_transform)
-student_performance_scale_transform <- predict(model_of_the_transform, numeric_data)
+
 
 
 ```
 
-
 ## STEP 5. Apply a Standardize Data Transform ----
-
 
 ```{r Standardize Data Transform}
 
 
-# Create a model for standardization transformation
-model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("scale", "center"))
-
-# Print the details of the transformation
-print(model_of_the_transform)
-
-# Apply standardization transformation
-student_performance_standardize_transform <- predict(model_of_the_transform, student_performance_scale_transform[, numeric_columns])
-
-# Display summary statistics of the standardized dataset
-summary(student_performance_standardize_transform)
-
-# Calculate and display standard deviations of the standardized numeric columns
-sapply(student_performance_standardize_transform, sd)
-
 ```
 
-
 ## STEP 6. Apply a Normalize Data Transform ----
+
 ```{rNormalize Data Transform}
 # Create a model for normalization transformation
 model_of_the_transform <- preProcess(student_performance_scale_transform[, numeric_columns], method = c("range"))
@@ -325,166 +301,27 @@ summary(student_performance_normalize_transform)
 ```
 
 ## STEP 7. Apply a Box-Cox Power Transform ----
+
 ```{r Box-Cox Power Transform}
-# Extract numeric columns
-numeric_columns <- sapply(student_performance_box_cox_transform, is.numeric)
 
-# Filter truly numeric columns
-numeric_data <- student_performance_box_cox_transform[, numeric_columns]
-
-# Calculate the skewness after the Box-Cox transform
-sapply(numeric_data, skewness, type = 2)
-
-# Plot histograms to view the skewness after the Box-Cox transform
-for (i in colnames(numeric_data)) {
-  hist(unlist(numeric_data[, i]), main = i)
-}
-
-# Convert tibble to numeric matrix
-numeric_matrix <- as.matrix(student_performance_scale_transform[, numeric_columns])
-
-# Create a model for the Box-Cox transform
-model_of_the_transform <- preProcess(numeric_matrix, method = c("BoxCox"))
-
-# Apply the Box-Cox transform
-student_performance_box_cox_transform <- predict(model_of_the_transform, numeric_matrix)
-# Display summary statistics of the dataset after Box-Cox transform
-summary(student_performance_box_cox_transform)
-
-# Function to check if a variable has enough variation
-has_enough_variation <- function(x) {
-  var <- var(x)
-  return(var > 1e-6)  # You can adjust the threshold as needed
-}
-
-# Identify rows with complete cases
-complete_rows <- complete.cases(student_performance_box_cox_transform)
-
-# Use the logical vector to subset the data frame
-student_performance_box_cox_no_na <- student_performance_box_cox_transform[complete_rows, ]
-
-# Exclude variables with insufficient variation
-selected_columns <- sapply(student_performance_box_cox_no_na, has_enough_variation)
-student_performance_box_cox_filtered <- student_performance_box_cox_no_na[, selected_columns]
-
-# Calculate skewness after the Box-Cox transform
-skewness_values <- sapply(student_performance_box_cox_filtered, skewness, type = 2)
-
-
-# Plot histograms to view the skewness after the Box-Cox transform
-for (i in numeric_columns) {
-  hist(student_performance_box_cox_transform[, i], main = names(student_performance_box_cox_transform)[i])
-}
 
 ```
 
-
 ## STEP 8. Apply a Yeo-Johnson Power Transform ----
+
 ```{r  Yeo-Johnson Power Transform}
-# Calculate the skewness before the Yeo-Johnson transform
-sapply(student_performance_normalize_transform[, -4], skewness, type = 2)
 
-# Plot histograms to view the skewness before the Yeo-Johnson transform
-for (i in names(student_performance_normalize_transform)[numeric_columns]) {
-  hist(student_performance_normalize_transform[, i], main = i)
-}
-
-# Create a model for the Yeo-Johnson transform
-model_of_the_transform_yeo_johnson <- preProcess(student_performance_normalize_transform[, numeric_columns], method = c("YeoJohnson"))
-
-# Apply the Yeo-Johnson transform
-student_performance_yeo_johnson_transform <- predict(model_of_the_transform_yeo_johnson, student_performance_normalize_transform[, numeric_columns])
-
-# Display summary statistics of the dataset after Yeo-Johnson transform
-summary(student_performance_yeo_johnson_transform)
-
-# Calculate the skewness after the Yeo-Johnson transform
-sapply(student_performance_yeo_johnson_transform, skewness, type = 2)
-
-# Plot histograms to view the skewness after the Yeo-Johnson transform
-for (i in names(student_performance_yeo_johnson_transform)) {
-  hist(student_performance_yeo_johnson_transform[[i]], main = i)
-}
 
 ```
 
 ## STEP 9.a. PCA Linear Algebra Transform for Dimensionality Reduction ----
+
 ```{r PCA Linear Algebra Transform}
-# Display summary of the student performance dataset
-summary(student_performance_standardize_transform)
-
-# Create a model for PCA transformation
-model_of_the_transform_pca <- preProcess(student_performance_standardize_transform[, numeric_columns], method = c("scale", "center", "pca"))
-
-# Print the details of the transformation
-print(model_of_the_transform_pca)
-
-# Apply PCA transformation
-student_performance_pca_dr <- predict(model_of_the_transform_pca, student_performance_standardize_transform[, numeric_columns])
-
-# Display summary statistics of the dataset after PCA
-summary(student_performance_pca_dr)
-
-
-## STEP 9.b. PCA Linear Algebra Transform for Feature Extraction ----
-# Exclude rows with missing or infinite values
-complete_rows <- complete.cases(student_performance_standardize_transform)
-student_performance_no_na <- student_performance_standardize_transform[complete_rows, ]
-
-# Compute the correlation matrix
-cor_matrix <- cor(student_performance_no_na[, numeric_columns])
-
-# Apply PCA using linear algebra
-student_performance_pca_fe <- princomp(cor_matrix)
-
-# Display summary of the PCA results
-summary(student_performance_pca_fe)
-
-# Scree Plot
-factoextra::fviz_eig(student_performance_pca_fe, addlabels = TRUE)
-
-# Loading Values
-# Extract loading values for the first two principal components
-loading_values <- student_performance_pca_fe$loadings[, 1:2]
-
-# Display loading values
-print(loading_values)
-
-# Visualization of the extent to which each variable is represented in the first two components
-factoextra::fviz_cos2(student_performance_pca_fe, choice = "var", axes = 1:2)
-
-# Biplot and Cos2 Combined Plot
-factoextra::fviz_pca_var(student_performance_pca_fe, col.var = "cos2",
-                         gradient.cols = c("red", "orange", "green"),
-                         repel = TRUE)
 
 ```
 
-
 ## STEP 10. ICA Linear Algebra Transform for Dimensionality Reduction ----
+
 ```{r ICA Linear Algebra Transform}
-if (!is.element("fastICA", installed.packages()[, 1])) {
-  install.packages("fastICA", dependencies = TRUE)
-}
-require("fastICA")
-# Check for and handle infinite or missing values
-numeric_data <- na.omit(student_performance_standardize_transform[, numeric_columns])
 
-# Ensure numeric_data is a numeric matrix
-numeric_data <- as.matrix(numeric_data)
-
-# Replace infinite values with NA
-numeric_data[!is.finite(numeric_data)] <- NA
-
-# Remove rows with missing values
-numeric_data <- na.omit(numeric_data)
-
-# Apply ICA for dimensionality reduction
-student_performance_ica_dr <- fastICA::fastICA(numeric_data, n.comp = 8)
-
-# Create a data frame from the ICA results
-student_performance_ica_dr_df <- as.data.frame(student_performance_ica_dr$S)
-
-# Display summary of the ICA results
-summary(student_performance_ica_dr_df)
 ```
